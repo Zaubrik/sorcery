@@ -28,3 +28,15 @@ export function makeQueue(...callbacks) {
   generatorObject.next();
   return generatorObject;
 }
+
+/**
+ * mapAsyncIterables.
+ * Map operator for AsyncIterables
+ */
+export function mapAsyncIterables(f) {
+  return async function* (asyncIter) {
+    for await (let v of asyncIter) {
+      yield await f(v);
+    }
+  };
+}

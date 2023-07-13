@@ -3,15 +3,15 @@ import { first } from "./collections/single_access.js";
 import { isSingle } from "./collections/length.js";
 import { map } from "./arrays/mapping.js";
 
-function resolve(value) {
+export function resolve(value) {
   return Promise.resolve(value);
 }
 
-function reject(reason) {
+export function reject(reason) {
   return Promise.reject(reason);
 }
 
-function parallel(...promises) {
+export function parallel(...promises) {
   if (isSingle(promises)) {
     const firstItem = first(promises);
 
@@ -23,14 +23,14 @@ function parallel(...promises) {
   return Promise.all(promises);
 }
 
-function mapFulfilled(functionOrValue) {
+export function mapFulfilled(functionOrValue) {
   return (promise) =>
     promise.then(
       isFunction(functionOrValue) ? functionOrValue : () => functionOrValue,
     );
 }
 
-function mapPromise(ifFulfilled) {
+export function mapPromise(ifFulfilled) {
   return (ifRejected) => (promise) =>
     promise.then(
       isFunction(ifFulfilled) ? ifFulfilled : () => ifFulfilled,
@@ -38,6 +38,6 @@ function mapPromise(ifFulfilled) {
     );
 }
 
-function parallelMap(f) {
+export function parallelMap(f) {
   return (arr) => parallel(map(f)(arr));
 }
