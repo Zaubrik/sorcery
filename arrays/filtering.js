@@ -38,9 +38,13 @@ function excludeNull(input) {
   }
 }
 
+function removeDuplicates(arr) {
+  return Array.from(new Set(arr));
+}
+
 function removeDuplicatedProperties(key) {
-  return (array) => {
-    return array.reduce((acc, obj, i, arr) => {
+  return (arr) => {
+    return arr.reduce((acc, obj, i, arr) => {
       if (acc.some((o) => o[key] === obj[key])) {
         return acc;
       } else {
@@ -57,4 +61,5 @@ export {
   filter,
   filterIndices,
   removeDuplicatedProperties,
+  removeDuplicates,
 };
