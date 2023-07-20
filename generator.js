@@ -4,19 +4,24 @@
  */
 export function makeObserver(generatorFunction) {
   return function (...args) {
-    const generatorObject = generatorFunction(...args);
-    generatorObject.next();
-    return generatorObject;
+    const generator = generatorFunction(...args);
+    generator.next();
+    return generator;
   };
 }
 
 /**
+ * makeQueue
+ * ```ts
  * const queue = makeQueue(console.log)
  * queue.next(10)
  * queue.next(20)
+ * ```
+ * @param {(...arg: any[]) => unknown | Promise<unknown>[]} callbacks
+ * @returns {Generator}
  */
 export function makeQueue(...callbacks) {
-  async function* makeGenerator(callbacks) {
+  async function* makeGenerator() {
     while (true) {
       const request = yield;
       for (const callback of callbacks) {
@@ -24,18 +29,27 @@ export function makeQueue(...callbacks) {
       }
     }
   }
-  const generatorObject = makeGenerator(callbacks);
-  generatorObject.next();
-  return generatorObject;
+  const generator = makeGenerator();
+  generator.next();
+  return generator;
 }
 
 /**
- * mapAsyncIterables.
- * Map operator for AsyncIterables
+ * mapAsyncIterable.
+ * Map operator for AsyncIterable
+ * ```ts
+ * function addDollar(str) {
+ *  return str + "$";
+ * }
+ * const arrS = ["uno", "dos", "tres", "quattro", "cinco"];
+ * const iterable = mapAsyncIterable(addDollar)(arrS);
+ * console.log(await iterable.next());
+ * ```
+ * @param {(...arg: any[]) => unknown | Promise<unknown>} callbacks
  */
-export function mapAsyncIterables(f) {
-  return async function* (asyncIter) {
-    for await (let v of asyncIter) {
+export function mapAsyncIterable(f) {
+  return async function* (asyncIterable) {
+    for await (let v of asyncIterable) {
       yield await f(v);
     }
   };
