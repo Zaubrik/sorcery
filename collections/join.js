@@ -1,6 +1,6 @@
 import { isArray, isString } from "../type.js";
 
-function concat(...items) {
+export function concat(...items) {
   if (items.length === 1) {
     const firstItem = items[0];
 
@@ -22,4 +22,22 @@ function concat(...items) {
   );
 }
 
-export { concat };
+export function join(separator) {
+  return (...items) => {
+    return items.flat().join(separator);
+  };
+}
+
+export const joinWithAmpersand = join("&");
+export const joinWithComma = join(",");
+export const joinWithCommaSpace = join(", ");
+export const joinWithDash = join("-");
+export const joinWithDot = join(".");
+export const joinWithSemicolon = join(";");
+export const joinWithSemicolonSpace = join("; ");
+export const joinWithSlash = join("/");
+export const joinWithSpace = join(" ");
+export const joinWithNewline = join("\n");
+export const joinWithEqualitySign = join("=");
+export const joinWithPlus = join("+");
+export const joinWithPipe = join("|");
