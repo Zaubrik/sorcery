@@ -41,6 +41,19 @@ export function isLongerThan(expectedLength) {
 }
 
 /**
+ * isBetween.
+ * @template {string|unknown[]} C
+ * @param {number} lowerBound
+ * @param {number} uppperBound
+ * @returns {(collection: C) => boolean}
+ */
+export function isBetween(lowerBound, uppperBound) {
+  return (collection) =>
+    isLongerThan(lowerBound)(collection) &&
+    isShorterThan(uppperBound)(collection);
+}
+
+/**
  * isEmpty.
  * @template {string|unknown[]} C
  * @param {C} collection
