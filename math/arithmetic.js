@@ -27,7 +27,7 @@ export function abs(value) {
 export function add(y) {
   return (x) => x + y;
 }
-add("");
+
 /**
  * subtract.
  *
