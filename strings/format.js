@@ -33,6 +33,7 @@ export function isPositiveInteger(str) {
  * ```
  */
 export function isDomainName(domain) {
-  const regex = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/;
+  const regex =
+    /^[a-zA-Z0-9\u00C0-\u017F][a-zA-Z0-9-]{0,61}[a-zA-Z0-9\u00C0-\u017F](?:\.[a-zA-Z\u00C0-\u017F]{2,})+$/;
   return regex.test(domain);
 }
