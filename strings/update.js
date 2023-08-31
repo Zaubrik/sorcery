@@ -82,12 +82,42 @@ function trim(input) {
   return input.trim();
 }
 
+/**
+ * ```js
+ * const paths = ["/example/path/", "/another/path", "no/slashes", "/single/"];
+ * const removeFirstSlash = removeFirstIf("/");
+ * const removeLastSlash = removeLastIf("/");
+ * for (const path of paths) {
+ *   console.log(path, removeFirstSlash(path), removeLastSlash(path));
+ * }
+ * ```
+ */
+function removeFirstIf(pattern) {
+  return (input) => {
+    if (input.startsWith(pattern)) {
+      return input.slice(1);
+    }
+    return input;
+  };
+}
+
+function removeLastIf(pattern) {
+  return (input) => {
+    if (input.endsWith(pattern)) {
+      return input.slice(0, -1);
+    }
+    return input;
+  };
+}
+
 export {
   pad,
   removeAll,
   removeDuplicateWhitespaces,
   removeFirst,
+  removeFirstIf,
   removeLast,
+  removeLastIf,
   replaceAll,
   replaceFirst,
   replaceLast,
