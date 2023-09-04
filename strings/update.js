@@ -64,6 +64,9 @@ function replaceAll(toBeReplaced) {
     input.replace(new RegExp(toBeReplaced, "g"), replacement);
 }
 
+export const replaceSpacesWithHyphens = replaceAll(/\s+/)("-");
+export const replaceSpacesWithUnderscores = replaceAll(/\s+/)("_");
+
 function pad(character) {
   return (minimumLength) => (input) => {
     const remaining = minimumLength - length(input);
