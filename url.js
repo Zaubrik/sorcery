@@ -28,3 +28,17 @@ export function createUrl(url, base) {
 export function createUrlWith(base) {
   return (url) => new URL(url, base);
 }
+
+/**
+ * getSearchParam.
+ *
+ * @param {string | URL } url
+ */
+export function getSearchParam(url) {
+  const queryString = url instanceof URL ? url.search : new URL(url).search;
+  /** @param {string} name */
+  return (name) => {
+    const params = new URLSearchParams(queryString);
+    return params.get(name);
+  };
+}
