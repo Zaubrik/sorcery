@@ -27,12 +27,12 @@ export function isPositiveInteger(str) {
  * @param {string} str
  * @return {boolean}
  * ```js
- * console.log(isValidDomainName("example.com"));  // true
- * console.log(isValidDomainName("sub.example.com"));  // true
- * console.log(isValidDomainName("not a domain"));  // false
+ * console.log(isDomain("example.com"));  // true
+ * console.log(isDomain("sub.example.com"));  // true
+ * console.log(isDomain("not a domain"));  // false
  * ```
  */
-export function isDomainName(domain) {
+export function isDomain(domain) {
   const regex =
     /^[a-zA-Z0-9\u00C0-\u017F][a-zA-Z0-9-]{0,61}[a-zA-Z0-9\u00C0-\u017F](?:\.[a-zA-Z\u00C0-\u017F]{2,})+$/;
   return regex.test(domain);

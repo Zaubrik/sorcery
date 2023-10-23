@@ -49,8 +49,33 @@ export function makeQueue(...callbacks) {
  */
 export function mapAsyncIterable(f) {
   return async function* (asyncIterable) {
+    let i = 0;
     for await (let v of asyncIterable) {
-      yield await f(v);
+      yield await f(v, i);
+      i++;
     }
   };
+}
+
+/**
+ * Takes an AsyncIterable or an array containing Promises and returns a
+ * Promise<unknown[]> by asynchronously evaluating the values one after one,
+ * ensuring that each value is fully awaited before the next one is processed.
+ * @param {AsyncIterable<unknown> | unknown[] } iterable
+ * @return {Promise<unknown[]>} iterable
+ * ```js
+ * function addDollar(str) {
+ *   return str + "$";
+ * }
+ * const arrS = ["uno", "dos", "tres", "quattro", "cinco"];
+ * const iterable = mapAsyncIterable(addDollar)(arrS);
+ * const result = await transformAsyncIterableToPromise(iterable);
+ * ```
+ */
+export async function transformAsyncIterableToPromise(iterable) {
+  const result = [];
+  for await (const value of iterable) {
+    result.push(value);
+  }
+  return result;
 }

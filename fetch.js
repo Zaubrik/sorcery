@@ -39,7 +39,7 @@ export const fetchFor = (
       return fetch(input, init).then((response) => {
         if (hasStatusCheck && !response.ok) {
           throw new Error(
-            `Received status code ${response.status} (${response.statusText}) instead of 200-299 range`,
+            `Received status code ${response.status} (${response.statusText}).`,
           );
         }
         switch (bodyMethod) {
@@ -64,3 +64,11 @@ export const fetchFor = (
     };
   }
 );
+
+export const fetchForArrayBuffer = fetchFor("arrayBuffer", true);
+export const fetchForBlob = fetchFor("blob", true);
+export const fetchForFormData = fetchFor("formData", true);
+export const fetchForJson = fetchFor("json", true);
+export const fetchForText = fetchFor("text", true);
+export const fetchForUint8Array = fetchFor("uint8Array", true);
+export const fetchForBody = fetchFor("body", true);

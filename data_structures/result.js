@@ -1,7 +1,7 @@
-import { fold } from "./arrays/aggregation.js";
-import { appendTo } from "./collections/update.js";
-import { isEmpty } from "./collections/length.js";
-import { isNull } from "./type.js";
+import { fold } from "../arrays/aggregation.js";
+import { appendTo } from "../collections/update.js";
+import { isEmpty } from "../collections/length.js";
+import { isNull } from "../type.js";
 import { throwError } from "../util/error.js";
 
 function succeed(value) {

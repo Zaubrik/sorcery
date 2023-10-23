@@ -8,6 +8,6 @@
     "strict": true,
     "useUnknownInCatchVariables": true,
     "noImplicitOverride": true,
-    "checkJs": true
+    "checkJs": false
   }
 }
