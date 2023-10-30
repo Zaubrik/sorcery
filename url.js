@@ -42,3 +42,34 @@ export function getSearchParam(url) {
     return params.get(name);
   };
 }
+
+/**
+ * getSearchParams.
+ *
+ * @param {string | URL } url
+ */
+export function getSearchParams(url) {
+  const queryString = url instanceof URL ? url.search : new URL(url).search;
+  /** @param {string[]} names */
+  return (names) => {
+    const params = new URLSearchParams(queryString);
+    return Object.fromEntries(
+      names.map((name) => [name, params.get(name)]),
+    );
+  };
+}
+
+/**
+ * appendSearchParams.
+ *
+ * @param {string | URL } url
+ */
+export function appendSearchParams(url) {
+  const urlObject = url instanceof URL ? url : new URL(url);
+  const params = urlObject.searchParams;
+  /** @param {Record<string,string>} keyValues  */
+  return (keyValues) => {
+    Object.entries(keyValues).map(([key, value]) => params.append(key, value));
+    return urlObject;
+  };
+}
