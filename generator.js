@@ -34,20 +34,6 @@ export function makeQueue(...callbacks) {
   return generator;
 }
 
-export function delay(valueOrFunction, duration = 0) {
-  return new Promise((resolve, reject) => {
-    setTimeout(
-      async () =>
-        resolve(
-          typeof valueOrFunction === "function"
-            ? await valueOrFunction()
-            : valueOrFunction,
-        ),
-      duration,
-    );
-  });
-}
-
 /**
  * ```js
  * function addDollar(str) {
