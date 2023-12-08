@@ -78,3 +78,13 @@ export function convertDashesToSpaces(str) {
     (match, group) => ` ${group}`,
   );
 }
+
+/**
+ * Takes a string and converts spaces to dashes.
+ *
+ * @param {string} str
+ * @return {string}
+ */
+export function convertSpacesToDashes(str) {
+  return str.replace(/\s+/g, "-");
+}
