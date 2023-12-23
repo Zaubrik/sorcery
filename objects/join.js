@@ -5,6 +5,17 @@ import { zip } from "../arrays/join.js";
 import { fromEntries } from "./creation.js";
 import { single } from "../collections/single_access.js";
 
+/**
+ * ```js
+ * const obj = {
+ *   a: 10,
+ *   b: 20,
+ *   c: 30,
+ *   d: { e: 40, l: "ll", f: { a: "a", b: "b" } },
+ * };
+ * const obj2 = { b: "b", d: { e: "e" }, z: { e: "e" }, f: { b: "zz" } };
+ * ```
+ */
 function merge(...objectsOrArray) {
   if (isSingle(objectsOrArray)) {
     const singleItem = single(objectsOrArray);

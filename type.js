@@ -155,3 +155,12 @@ export function isError(input) {
 export function isUrl(input) {
   return input instanceof URL;
 }
+
+/**
+ * isRegExp.
+ * @param {unknown} input
+ * @returns {input is RegExp}
+ */
+export function isRegExp(input) {
+  return input instanceof RegExp;
+}
