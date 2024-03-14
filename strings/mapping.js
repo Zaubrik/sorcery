@@ -65,26 +65,3 @@ export function convertDashToCamel(str) {
 export function convertCamelToDash(str) {
   return str.replace(/([a-zA-Z0-9])(?=[A-Z])/g, "$1-").toLowerCase();
 }
-
-/**
- * Takes a string and converts dashes to spaces.
- *
- * @param {string} str
- * @return {string}
- */
-export function convertDashesToSpaces(str) {
-  return str.replace(/-+/g, " ").replace(
-    /-([a-zA-Z])/g,
-    (match, group) => ` ${group}`,
-  );
-}
-
-/**
- * Takes a string and converts spaces to dashes.
- *
- * @param {string} str
- * @return {string}
- */
-export function convertSpacesToDashes(str) {
-  return str.replace(/\s+/g, "-");
-}

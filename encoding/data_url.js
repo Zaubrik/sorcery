@@ -10,7 +10,7 @@
 export function makeDataUrl(mediaType) {
   return (data) =>
     `data:${mediaType},${
-      mediaType.includes(";base64;") ? data : encodeURIComponent(data)
+      mediaType.includes(";base64,") ? data : encodeURIComponent(data)
     }`;
 }
 

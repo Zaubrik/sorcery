@@ -164,3 +164,17 @@ export function isUrl(input) {
 export function isRegExp(input) {
   return input instanceof RegExp;
 }
+
+/**
+ * isUrlString.
+ * @param {unknown} input
+ * @returns {input is string}
+ */
+export function isUrlString(input) {
+  try {
+    const url = new URL(input);
+    return true;
+  } catch {
+    return false;
+  }
+}
