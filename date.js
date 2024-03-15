@@ -1,12 +1,17 @@
 /**
  * Get a formatted date string based on the given timestamp.
- *
+ * ```js
+ * const result = getFormattedDate(1702292155654);
+ * console.log(result);
+ * const date = new Date(r);
+ * console.log(date);
+ * ```
  * @param {number} timestamp - The timestamp to convert to a formatted date.
  * @param {Object} options - Options for formatting the date.
  * @param {string} [options.lang="de-DE"] - The language for the formatted date.
  * @returns {string} The formatted date string.
  */
-function getFormattedDate(timestamp, { lang = "de-DE" } = {}) {
+export function getFormattedDate(timestamp, { lang = "de-DE" } = {}) {
   const date = new Date(timestamp);
   const options /** @type {Intl.DateTimeFormatOptions} */ = {
     year: "numeric",
@@ -19,11 +24,6 @@ function getFormattedDate(timestamp, { lang = "de-DE" } = {}) {
   const formattedDate = date.toLocaleDateString(lang, options);
   return formattedDate;
 }
-
-const r = getFormattedDate(1702292155654);
-console.log(r);
-const date = new Date(r);
-console.log(date);
 
 /**
  * Converts a formatted date string to a timestamp.
@@ -64,7 +64,14 @@ console.log(date);
 // console.log(timestamp);
 /**
  * Converts a formatted date string to a timestamp using the Date constructor.
- *
+ * ```js
+ * const timestamp = convertFormattedDateToTimestamp(
+ *   "11. Dezember 2023 um 11:55",
+ *   { lang: "de-DE" },
+ * );
+ * console.log(timestamp);
+ * console.log(getFormattedDate(timestamp));
+ * ```
  * @param {string} formattedDate - The formatted date string.
  * @param {Object} options - Options for the conversion.
  * @param {string} [options.lang="de-DE"] - The language used in the original formatting.
@@ -93,17 +100,12 @@ function convertFormattedDateToTimestamp(
 
     // Split the formatted date string into parts
     const [day, month, year, , time] = formattedDate.split(" ");
-    console.log(formattedDate.split(" "));
-
     // Extract numeric values from parts
     const dayNumeric = parseInt(day, 10);
     const monthNumeric = monthNames[month];
     const yearNumeric = parseInt(year, 10);
     // Extract hours and minutes from time
     const [hours, minutes] = time.split(":").map((part) => parseInt(part, 10));
-    console.log("time:", time);
-    console.log(dayNumeric, monthNumeric, yearNumeric, hours, minutes);
-
     // Create a new Date object
     const date = new Date(
       yearNumeric,
@@ -112,20 +114,9 @@ function convertFormattedDateToTimestamp(
       hours,
       minutes,
     );
-    console.log("aaaaa Date:", date);
-
     const timestamp = date.getTime();
     return timestamp;
   } catch (error) {
-    console.error(`Error parsing date: ${formattedDate}`);
-    return null;
+    throw error;
   }
 }
-
-// Example usage:
-const timestamp = convertFormattedDateToTimestamp(
-  "11. Dezember 2023 um 11:55",
-  { lang: "de-DE" },
-);
-console.log(timestamp);
-console.log(getFormattedDate(timestamp));
