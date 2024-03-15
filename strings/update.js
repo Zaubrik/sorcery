@@ -66,6 +66,10 @@ function replaceAll(toBeReplaced) {
 
 export const replaceSpacesWithHyphens = replaceAll(/\s+/)("-");
 export const replaceSpacesWithUnderscores = replaceAll(/\s+/)("_");
+export const replaceHyphensWithSpaces = replaceAll(/-/)(" ");
+export const replaceUnderscoresWithSpaces = replaceAll(/_+/)(" ");
+export const replaceHyphensWithUnderscores = replaceAll(/-+/)("_");
+export const replaceUnderscoresWithHyphens = replaceAll(/_+/)("-");
 
 function pad(character) {
   return (minimumLength) => (input) => {
