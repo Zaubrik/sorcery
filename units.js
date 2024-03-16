@@ -3,7 +3,7 @@
  * @const
  * @type {number}
  */
-export const BYTES_PER_KB = 1024;
+export const bytesPerKb = 1024;
 
 /**
  * Convert bytes to megabytes.
@@ -11,7 +11,7 @@ export const BYTES_PER_KB = 1024;
  * @return {number} The equivalent number of megabytes.
  */
 export function bytesToMb(bytes) {
-  return bytes / BYTES_PER_KB / BYTES_PER_KB;
+  return bytes / bytesPerKb / bytesPerKb;
 }
 
 /**
@@ -20,7 +20,7 @@ export function bytesToMb(bytes) {
  * @return {number} The equivalent number of gigabytes.
  */
 export function bytesToGb(bytes) {
-  return bytes / BYTES_PER_KB / BYTES_PER_KB / BYTES_PER_KB;
+  return bytes / bytesPerKb / bytesPerKb / bytesPerKb;
 }
 
 /**
@@ -29,7 +29,7 @@ export function bytesToGb(bytes) {
  * @return {number} The equivalent number of bytes.
  */
 export function mbToBytes(mb) {
-  return mb * BYTES_PER_KB * BYTES_PER_KB;
+  return mb * bytesPerKb * bytesPerKb;
 }
 
 /**
@@ -38,7 +38,7 @@ export function mbToBytes(mb) {
  * @return {number} The equivalent number of gigabytes.
  */
 export function mbToGb(mb) {
-  return mb / BYTES_PER_KB;
+  return mb / bytesPerKb;
 }
 
 /**
@@ -47,7 +47,7 @@ export function mbToGb(mb) {
  * @return {number} The equivalent number of bytes.
  */
 export function gbToBytes(gb) {
-  return gb * BYTES_PER_KB * BYTES_PER_KB * BYTES_PER_KB;
+  return gb * bytesPerKb * bytesPerKb * bytesPerKb;
 }
 
 /**
@@ -56,5 +56,5 @@ export function gbToBytes(gb) {
  * @return {number} The equivalent number of megabytes.
  */
 export function gbToMb(gb) {
-  return gb * BYTES_PER_KB;
+  return gb * bytesPerKb;
 }
