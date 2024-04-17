@@ -21,4 +21,17 @@ function reverseObject(input) {
   return reversed;
 }
 
-export { reverseObject, setProperty };
+/**
+ * Creates a function that removes a specified property from an object.
+ * @template T The type of the original object.
+ * @param {keyof T} propName - The name of the property to remove.
+ * @returns {(obj: T) => Omit<T, typeof propName>}
+ */
+function removeProperty(propName) {
+  return (obj) => {
+    const { [propName]: _, ...rest } = obj;
+    return rest;
+  };
+}
+
+export { removeProperty, reverseObject, setProperty };

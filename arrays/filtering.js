@@ -1,6 +1,7 @@
 import { isSingle } from "../collections/length.js";
 import { isArray, isNull } from "../type.js";
 import { not } from "../booleans/negation.js";
+import { propertyEquals } from "../objects/membership.js";
 
 function filter(predicate) {
   return (arr) => arr.filter(predicate);
@@ -53,6 +54,11 @@ function removeDuplicatedProperties(key) {
       }
     }, []);
   };
+}
+
+export function searchForPropertyEquals(property) {
+  return (array) => (value) =>
+    array.filter((obj) => propertyEquals(property)(value)(obj));
 }
 
 export {

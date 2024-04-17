@@ -14,13 +14,13 @@
 
 /**
 @typedef {{
- * (bodyMethod: "arrayBuffer", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<ArrayBuffer>;
- * (bodyMethod: "blob", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<Blob>;
- * (bodyMethod: "formData", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<FormData>;
- * (bodyMethod: "json", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<JsonValue>;
- * (bodyMethod: "text", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<string>;
- * (bodyMethod: "uint8Array", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<Uint8Array>;
- * (bodyMethod: "body", hasStatusCheck?: boolean): (input:RequestInfo, init?:RequestInit) => Promise<ReadableStream>;
+ * (bodyMethod: "arrayBuffer", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<ArrayBuffer>;
+ * (bodyMethod: "blob", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<Blob>;
+ * (bodyMethod: "formData", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<FormData>;
+ * (bodyMethod: "json", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<JsonValue>;
+ * (bodyMethod: "text", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<string>;
+ * (bodyMethod: "uint8Array", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<Uint8Array>;
+ * (bodyMethod: "body", hasStatusCheck?: boolean): (input:RequestInfo | URL, init?:RequestInit) => Promise<ReadableStream>;
     [k:string]: any
 }} FetchFor
 */

@@ -103,3 +103,43 @@ export function getDirname(path) {
 export function removeExtension(filename) {
   return filename.split(".")[0];
 }
+
+const osType = (() => {
+  const { Deno } = globalThis;
+  if (typeof Deno?.build?.os === "string") {
+    return Deno.build.os;
+  }
+  const { navigator } = globalThis;
+  if (navigator?.appVersion?.includes?.("Win")) {
+    return "windows";
+  }
+  return "linux";
+})();
+const isWindows = osType === "windows";
+function assertArg(url) {
+  url = url instanceof URL ? url : new URL(url);
+  if (url.protocol !== "file:") {
+    throw new TypeError("Must be a file URL.");
+  }
+  return url;
+}
+function fromFileUrl1(url) {
+  url = assertArg(url);
+  return decodeURIComponent(
+    url.pathname.replace(/%(?![0-9A-Fa-f]{2})/g, "%25"),
+  );
+}
+function fromFileUrl2(url) {
+  url = assertArg(url);
+  let path = decodeURIComponent(
+    url.pathname.replace(/\//g, "\\").replace(/%(?![0-9A-Fa-f]{2})/g, "%25"),
+  ).replace(/^\\*([A-Za-z]:)(\\|$)/, "$1\\");
+  if (url.hostname !== "") {
+    path = `\\\\${url.hostname}${path}`;
+  }
+  return path;
+}
+
+export function fromFileUrl(url) {
+  return isWindows ? fromFileUrl2(url) : fromFileUrl1(url);
+}
