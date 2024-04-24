@@ -1,24 +1,4 @@
 /**
- * Takes a url and `URL` properties and returns a new, merged `URL` object.
- * ```js
- * mergeUrl(new URL("https://example.com"))({ port: "8888", username: "joe" })
- * ```
- * @typedef {Partial<Omit<URL, "origin" | "searchParams">>} UrlProperties
- * @param {string|URL} baseUrl
- * @returns {(partialUrl:UrlProperties) => URL}
- */
-export function mergeUrl(baseUrl) {
-  // NOT: Don't mutate the passed url object.
-  const url = new URL(baseUrl instanceof URL ? baseUrl.href : baseUrl);
-  return (urlOrProps) => {
-    Object.entries(urlOrProps).forEach(([key, value]) => {
-      /**@type {any}*/ (url)[key] = value;
-    });
-    return url;
-  };
-}
-
-/**
  * importMetaResolve.
  * @param {string} moduleUrl
  * @return {(path: string) => string}
