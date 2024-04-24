@@ -1,4 +1,3 @@
-import { mergeUrl } from "./url.js";
 /**
  * Creates a new Response object by copying the body and headers from an existing Response object.
  * Difference between cloning and copying of a `Response`:
@@ -36,20 +35,4 @@ export function getResponseBody(input) {
   } else {
     return JSON.stringify(input);
   }
-}
-
-/**
- * Fetches a resource based on the provided request, and optionally modifies
- * the URL using given properties, then copies the response.
- *
- * @typedef {import("./url.js").UrlProperties} UrlProperties
- * @param {Request} request - The original request object.
- * @param {UrlProperties} [urlOrProps] - Optional properties to modify the request URL.
- * @returns {Promise<Response>} The copied response.
- */
-export async function fetchAndCopy(request, urlOrProps) {
-  const url = urlOrProps ? mergeUrl(request.url)(urlOrProps) : request.url;
-  const newRequest = new Request(url, request);
-  const response = await fetch(newRequest);
-  return copyResponse(response);
 }
