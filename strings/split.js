@@ -15,3 +15,7 @@ export const splitByNewline = split("\n");
 export const splitByEqualitySign = split("=");
 export const splitByPlus = split("+");
 export const splitByPipe = split("|");
+
+export function removeFromLastDot(input) {
+  return removeLast(`.${last(splitByDot(input))}`)(input);
+}
