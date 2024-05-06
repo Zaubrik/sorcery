@@ -24,3 +24,4 @@ export function removeFromLastSeparator(splitFunction) {
 }
 
 export const removeFromLastDot = removeFromLastSeparator(splitByDot);
+export const removeFromLastDash = removeFromLastSeparator(splitByDash);
