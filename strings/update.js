@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { length } from "../collections/length.js";
+import { first, last } from "../collections/single_access.js";
 import { repeat } from "./mapping.js";
 
 function surroundWith(beginning) {
