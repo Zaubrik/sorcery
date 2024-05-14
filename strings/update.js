@@ -2,6 +2,7 @@
 import { length } from "../collections/length.js";
 import { first, last } from "../collections/single_access.js";
 import { repeat } from "./mapping.js";
+import { splitByDash, splitByDot } from "./split.js";
 
 function surroundWith(beginning) {
   return (end) => (str) => beginning + str + end;
@@ -116,6 +117,14 @@ function removeLastIf(pattern) {
     }
     return input;
   };
+}
+
+export function removeFromLastDash(websiteName) {
+  return removeLast(`-${last(splitByDash(websiteName))}`)(websiteName);
+}
+
+export function removeFromLastDot(domain) {
+  return removeLast(`.${last(splitByDot(domain))}`)(domain);
 }
 
 export {
