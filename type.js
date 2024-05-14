@@ -64,15 +64,20 @@ export function isString(input) {
 /**
  * Checks if the provided input is a function.
  * @param {unknown} input - The input to check.
- * @returns {boolean} - True if the input is a function, false otherwise.
+ * @returns {input is Function} - True if the input is a function,
+ * otherwise false.
  */
 export function isFunction(input) {
   return typeof input === "function";
 }
 
 /**
- * isFunction.
+ * isNarrowedFunction
+ * Checks if the provided input is a callable function and narrows its type to a
+ * callable entity.  This function uses TypeScript's advanced type narrowing feature
+ * to ensure that the input is not only a function but also can be called as such.
  * https://github.com/microsoft/TypeScript/pull/23039
+ * @template T
  * @template T
  * @param {T} input
  * @returns {value is Extract<T, Function>}
