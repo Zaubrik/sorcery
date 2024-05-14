@@ -90,7 +90,7 @@ export function isPresent(input) {
 /**
  * isObject.
  * @param {unknown} input
- * @returns {input is Record<string, unknown>}
+ * @returns {input is Record<string, any>}
  */
 export function isObject(input) {
   return (
