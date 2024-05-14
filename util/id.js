@@ -129,6 +129,6 @@ export function decodeTime(id) {
   return time;
 }
 export const monotonicUlid = monotonicFactory();
-export function ulid(seedTime = Date.now()) {
+export function generateUlid(seedTime = Date.now()) {
   return encodeTime(seedTime, 10) + encodeRandom(16);
 }
