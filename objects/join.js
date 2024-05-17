@@ -144,12 +144,13 @@ export function zipObject(as) {
 
 /**
  * Deeply merges the source object into the target object.
+ *
  * @param {Object} target - The target object to merge into.
  * @param {Object} source - The source object to merge from.
  * @returns {Object} - The merged object.
  * @throws {TypeError} - If target or source is not an object.
  */
-export function deepMerge(target, source) {
+export function baseDeepMerge(target, source) {
   if (!isObject(target)) {
     target = {};
   }
@@ -162,12 +163,30 @@ export function deepMerge(target, source) {
       if (!target[key]) {
         Object.assign(target, { [key]: {} });
       }
-      deepMerge(target[key], source[key]);
+      baseDeepMerge(target[key], source[key]);
     } else {
       Object.assign(target, { [key]: source[key] });
     }
   }
   return target;
+}
+
+/**
+ * Curried function that deeply merges two objects.
+ *
+ * @example
+ * ```js
+ * const base = { a: 1, b: { c: 3 } };
+ * const custom = { b: { d: 4 }, e: 5 };
+ * const mergeFn = deepMerge(base);
+ * const result = mergeFn(custom);
+ * // result = { a: 1, b: { c: 3, d: 4 }, e: 5 }
+ * ```
+ * @param {Object} target - The target object to merge into.
+ * @returns {Function} - A function that takes the source object to merge from.
+ */
+export function deepMerge(target) {
+  return (source) => baseDeepMerge(target, source);
 }
 
 /**
@@ -198,21 +217,8 @@ export function deepMerge(target, source) {
  *   test: 10,
  * };
  * const result = deepMergeMultiple(baseNameObject, customProperties);
- * // result = {
- * //   kind: "input",
- * //   label: "Custom Name",
- * //   id: "name",
- * //   attr: {
- * //     type: "text",
- * //     placeholder: "John Doe",
- * //     minlength: "2",
- * //     maxlength: "50",
- * //     required: "",
- * //   },
- * //   test: 10,
- * // }
  * ```
  */
 export function deepMergeMultiple(...objects) {
-  return objects.reduce((acc, obj) => deepMerge(acc, obj), {});
+  return objects.reduce((acc, obj) => baseDeepMerge(acc, obj), {});
 }
