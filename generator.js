@@ -11,54 +11,78 @@ export function makeObserver(generatorFunction) {
 }
 
 /**
- * makeQueue
- * ```ts
- * const queue = makeQueue(console.log)
- * queue.next(10)
- * queue.next(20)
- * ```
- * @param {(...arg: any[]) => unknown | Promise<unknown>[]} callbacks
- * @returns {Generator}
- */
-export function makeQueue(...callbacks) {
-  async function* makeGenerator() {
-    while (true) {
-      const request = yield;
-      for (const callback of callbacks) {
-        await callback(request);
-      }
-    }
-  }
-  const generator = makeGenerator();
-  generator.next();
-  return generator;
-}
-
-/**
+ * Initializes a controlled generator function that processes values through a
+ * given function. The function returns an object that allows sending values to
+ * the generator and controlling its execution (including aborting).
+ * @param {Function} f - The function to process each input value. It should
+ * return a value or a promise that resolves to a value.
+ * @returns {{
+ *   next: (arg: any) => Promise<IteratorResult<any, any>>,
+ *   abort: () => void
+ * }} An object with `next` to send values to the generator, and `abort` to stop
+ * its execution.
+ * @example
  * ```js
  * function addDollar(str) {
  *   return str + "$";
  * }
  * const iterable = queue(addDollar);
- * await iterable.next("uno");
- * await iterable.next("two");
- * await iterable.next("three");
+ * iterable.next("uno").then(console.log);
+ * iterable.next("two").then(console.log);
+ * iterable.next("three").then(console.log);
+ * iterable.abort();   // Aborts the generator
  * ```
  */
 export function queue(f) {
-  async function* makeGenerator() {
-    let passedValue;
-    let result;
-    let i = 0;
-    while (true) {
-      passedValue = yield result;
-      result = await f(passedValue, i);
-      i++;
+  const controller = new AbortController();
+  const { signal } = controller;
+  const generator = makeGenerator(f, signal);
+  generator.next(); // Start the generator
+
+  return {
+    next: (arg) => generator.next(arg),
+    abort: () => controller.abort(),
+  };
+}
+
+/**
+ * Creates an asynchronous generator that yields results processed by function `f`.
+ * The generator can be externally controlled and is designed to terminate when
+ * an abort signal is set.
+ * @param {Function} f - The processing function, which receives the current
+ * value and its index, and returns a processed result.
+ * @param {AbortSignal} signal - An abort signal to terminate the generator execution.
+ * @returns {AsyncGenerator<any, void, any>} An asynchronous generator that can be
+ * controlled via passed values and an abort signal.
+ *
+ * @example
+ * ```js
+ * async function processValue(value, index) {
+ *   return new Promise((resolve) =>
+ *     setTimeout(() => resolve(`Processed ${value} at index ${index}`), 1000)
+ *   );
+ * }
+ * const genControl = queue(processValue);
+ * genControl.next(10).then(console.log);  // "Processed 10 at index 0"
+ * genControl.next(20).then(console.log);  // "Processed 20 at index 1"
+ * setTimeout(() => {
+ *   genControl.abort();
+ * }, 2500);  // Will terminate the generator before any more processing
+ * ```
+ */
+export async function* makeGenerator(f, signal) {
+  let passedValue;
+  let result;
+  let i = 0;
+  while (true) {
+    if (signal.aborted) {
+      // Exits the generator function on abort
+      return;
     }
+    passedValue = yield result;
+    result = await f(passedValue, i);
+    i++;
   }
-  const generator = makeGenerator();
-  generator.next();
-  return generator;
 }
 
 /**

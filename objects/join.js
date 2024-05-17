@@ -6,6 +6,9 @@ import { fromEntries } from "./creation.js";
 import { single } from "../collections/single_access.js";
 
 /**
+ * Merges multiple objects or arrays into one object.
+ *
+ * @example
  * ```js
  * const obj = {
  *   a: 10,
@@ -14,9 +17,22 @@ import { single } from "../collections/single_access.js";
  *   d: { e: 40, l: "ll", f: { a: "a", b: "b" } },
  * };
  * const obj2 = { b: "b", d: { e: "e" }, z: { e: "e" }, f: { b: "zz" } };
+ * const result = merge(obj, obj2);
+ * // result = {
+ * //   a: 10,
+ * //   b: "b",
+ * //   c: 30,
+ * //   d: { e: "e", l: "ll", f: { a: "a", b: "b" } },
+ * //   z: { e: "e" },
+ * //   f: { b: "zz" }
+ * // }
  * ```
+ *
+ * @param {...(Object|Array)} objectsOrArray - The objects or arrays to merge.
+ * @returns {Object} - The merged object.
+ * @throws {Error} - If an invalid type is encountered.
  */
-function merge(...objectsOrArray) {
+export function merge(...objectsOrArray) {
   if (isSingle(objectsOrArray)) {
     const singleItem = single(objectsOrArray);
 
@@ -38,7 +54,15 @@ function merge(...objectsOrArray) {
   }
 }
 
-function mergeWith(f) {
+/**
+ * Creates a merging function with a custom merge strategy.
+ *
+ * @param {Function} f - The custom merge strategy function.
+ * @returns {Function} - A function that merges objects or arrays using the
+ * custom strategy.
+ * @throws {Error} - If an invalid type is encountered.
+ */
+export function mergeWith(f) {
   return (...objectsOrArray) => {
     if (isSingle(objectsOrArray)) {
       const singleItem = single(objectsOrArray);
@@ -74,14 +98,27 @@ function mergeWith(f) {
   };
 }
 
-function extend(b) {
+/**
+ * Extends an object with the properties of another object.
+ *
+ * @param {Object} b - The object to extend with.
+ * @returns {Function} - A function that takes an object to be extended.
+ */
+export function extend(b) {
   return (a) => ({
     ...a,
     ...(b ?? {}),
   });
 }
 
-function extendWith(f) {
+/**
+ * Extends an object with the properties of another object using a custom
+ * merge strategy.
+ *
+ * @param {Function} f - The custom merge strategy function.
+ * @returns {Function} - A function that takes an object to be extended.
+ */
+export function extendWith(f) {
   return (b) => (a) => {
     const definiteB = b ?? {};
 
@@ -95,8 +132,87 @@ function extendWith(f) {
   };
 }
 
-function zipObject(as) {
+/**
+ * Creates an object from two arrays, one of keys and one of values.
+ *
+ * @param {Array} as - The array of keys.
+ * @returns {Function} - A function that takes an array of values.
+ */
+export function zipObject(as) {
   return (bs) => fromEntries(zip(as, bs));
 }
 
-export { extend, extendWith, merge, mergeWith, zipObject };
+/**
+ * Deeply merges the source object into the target object.
+ * @param {Object} target - The target object to merge into.
+ * @param {Object} source - The source object to merge from.
+ * @returns {Object} - The merged object.
+ * @throws {TypeError} - If target or source is not an object.
+ */
+export function deepMerge(target, source) {
+  if (!isObject(target)) {
+    target = {};
+  }
+  if (!isObject(source)) {
+    return target;
+  }
+
+  for (const key of Object.keys(source)) {
+    if (isObject(source[key])) {
+      if (!target[key]) {
+        Object.assign(target, { [key]: {} });
+      }
+      deepMerge(target[key], source[key]);
+    } else {
+      Object.assign(target, { [key]: source[key] });
+    }
+  }
+  return target;
+}
+
+/**
+ * Deeply merges multiple objects into a single object.
+ * @param {...Object} objects - The objects to merge.
+ * @returns {Object} - The merged object.
+ * @example
+ * ```js
+ * const baseNameObject = {
+ *   kind: "input",
+ *   label: "Name",
+ *   id: "name",
+ *   attr: {
+ *     type: "text",
+ *     placeholder: "Max Muster",
+ *     minlength: "2",
+ *     maxlength: "100",
+ *     required: "",
+ *   },
+ *   test: { a: "b" },
+ * };
+ * const customProperties = {
+ *   label: "Custom Name",
+ *   attr: {
+ *     placeholder: "John Doe",
+ *     maxlength: "50",
+ *   },
+ *   test: 10,
+ * };
+ * const result = deepMergeMultiple(baseNameObject, customProperties);
+ * // result = {
+ * //   kind: "input",
+ * //   label: "Custom Name",
+ * //   id: "name",
+ * //   attr: {
+ * //     type: "text",
+ * //     placeholder: "John Doe",
+ * //     minlength: "2",
+ * //     maxlength: "50",
+ * //     required: "",
+ * //   },
+ * //   test: 10,
+ * // }
+ * ```
+ */
+export function deepMergeMultiple(...objects) {
+  return objects.reduce((acc, obj) => deepMerge(acc, obj), {});
+}

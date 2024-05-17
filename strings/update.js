@@ -119,12 +119,12 @@ function removeLastIf(pattern) {
   };
 }
 
-export function removeFromLastDash(websiteName) {
-  return removeLast(`-${last(splitByDash(websiteName))}`)(websiteName);
+export function removeFromLastDash(input) {
+  return removeLast(`-${last(splitByDash(input))}`)(input);
 }
 
-export function removeFromLastDot(domain) {
-  return removeLast(`.${last(splitByDot(domain))}`)(domain);
+export function removeFromLastDot(input) {
+  return removeLast(`.${last(splitByDot(input))}`)(input);
 }
 
 export {
