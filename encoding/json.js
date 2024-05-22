@@ -1,17 +1,40 @@
 /**
- * Parses a JSON value and returns an tuple of the possible value and error.
- * @param {string} json
- * @returns {[string|null, Error|null]}
+ * Parses a JSON string and returns an object indicating success or failure.
+ *
+ * @param {string} json - The JSON string to parse.
+ * @returns {{ value?: any, error?: Error, kind: 'success' | 'failure' }} An object
+ * containing either the parsed value and a 'success' kind, or an error and a
+ * 'failure' kind.
+ * ```js
+ * const jsonString = '{"key": "value"}';
+ * const { value, error } = tryToParse(jsonString);
+ * console.log(value);
+ * ```
  */
 export function tryToParse(json) {
   try {
-    return [JSON.parse(json), null];
-  } catch (err) {
-    return [null, /**@type {SyntaxError}*/ (err)];
+    const value = JSON.parse(json);
+    return {
+      value,
+      kind: "success",
+    };
+  } catch (error) {
+    return {
+      error,
+      kind: "failure",
+    };
   }
 }
 
 /**
+ * Safely stringifies a value to a JSON string. If the value
+ * is a string, it is returned as is.
+ * If the value cannot be stringified (e.g., functions, undefined),
+ * it returns "null".
+ * @param {*} value - The value to stringify. It can be of any type.
+ * @returns {string} - The JSON string representation of the value,
+ * or "null" if it cannot be stringified.
+ * @example
  * ```js
  * console.log(safeJSONStringify("This is a string")); // Output: "This is a string"
  * console.log(safeJSONStringify({ key: "value" })); // Output: "{\"key\":\"value\"}"

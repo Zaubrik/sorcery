@@ -11,17 +11,15 @@ import { defaultValue } from "../type.js";
  *   return acc += el.toUpperCase();
  * }
  * const arrS = ["uno", "dos", "tres", "quattro", "cinco"];
- *  fold(toUpperCase)("initialValue")(arrS);
+ *  fold(toUpperCase)("initialValue")(arrS); // initialValueUNODOSTRESQUATTROCINCO
  * ```
  */
 function fold(f) {
   return (initialValue) => (arr) => {
     let acc = initialValue;
-
     for (let i = 0; i < arr.length; i++) {
       acc = f(acc, arr[i], i);
     }
-
     return acc;
   };
 }
