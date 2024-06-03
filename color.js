@@ -487,15 +487,27 @@ export class Color {
 
     if (Array.isArray(colorInput)) {
       if (
-        colorInput.length === 3 &&
         colorInput.every((n) => typeof n === "number" && n >= 0 && n <= 255)
       ) {
         rgb = colorInput;
       } else {
         throw Error(`Invalid RGB color format: '${colorInput}'.`);
       }
-    } else if (typeof colorInput === "string" && colorInput.startsWith("#")) {
-      rgb = Color.hex2rgba(colorInput).slice(0, 3);
+    } else if (typeof colorInput === "string") {
+      if (colorInput.startsWith("#")) {
+        rgb = Color.hex2rgba(colorInput).slice(0, 3);
+      } else if (colorInput.startsWith("rgb")) {
+        const match = colorInput.match(
+          /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*\d*\.?\d+)?\)/,
+        );
+        if (match) {
+          rgb = match.slice(1, 4).map(Number);
+        } else {
+          throw Error(`Invalid RGB/RGBA color format: '${colorInput}'.`);
+        }
+      } else {
+        throw Error(`Invalid color format: '${colorInput}'.`);
+      }
     } else {
       throw Error(`Invalid color format: '${colorInput}'.`);
     }
