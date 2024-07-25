@@ -103,7 +103,7 @@ export function isFailure(result) {
 /**
  * Throw an error for unsupported kinds.
  * @param {string} kind - The unsupported kind.
- * @throws Will throw an error with the unsupported kind message.
+ * @throws Error - Will throw an error with the unsupported kind message.
  */
 export function throwUnsupportedKind(kind) {
   throwError(`Unsupported kind: ${kind}`);
@@ -116,7 +116,7 @@ export function throwUnsupportedKind(kind) {
  * @example
  * ```js
  * const result = mapResult(async (value) => value + "!")(Promise.resolve(succeed("Hello")));
- * result.then(console.log); // { value: "Hello!", kind: "success" }
+ * console.log(await result); // { value: "Hello!", kind: "success" }
  * ```
  */
 export function mapResult(f) {
@@ -288,11 +288,11 @@ export async function transformResultToPromise(result) {
  * ```
  */
 export function tryCatch(f) {
-  return async (input) => {
+  return async (input, error) => {
     try {
       return succeed(await f(input));
-    } catch (error) {
-      return fail(error);
+    } catch (err) {
+      return fail(typeof error === "undefined" ? err : error);
     }
   };
 }

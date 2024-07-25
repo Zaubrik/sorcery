@@ -149,3 +149,22 @@ export async function transformAsyncIterableToPromise(iterable) {
   }
   return result;
 }
+
+/*
+ * ```js
+ * const arrN = [10, 20, Promise.resolve("Value from promise 1")];
+ * const gen = cyclicIterator(arrN);
+ * console.log(await gen.next());
+ * console.log(await gen.next());
+ * console.log(await gen.next());
+ * console.log(await gen.next());
+ * ```
+ */
+async function* cyclicIterator(iterable) {
+  let index = 0;
+  while (true) {
+    const resolvedValue = await iterable[index];
+    yield resolvedValue;
+    index = (index + 1) % iterable.length;
+  }
+}
