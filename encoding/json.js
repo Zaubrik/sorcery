@@ -62,3 +62,8 @@ export function safeJSONStringify(value) {
     return "null";
   }
 }
+
+export function isJsonPrimitive(value) {
+  return typeof value === "string" || typeof value === "number" ||
+    typeof value === "boolean" || value === null;
+}

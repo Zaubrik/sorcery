@@ -1,13 +1,20 @@
 /**
  * slog.
  * ```
- * const num = 10
- * slog({num})
+ * const num = 10;
+ * const str = "abc";
+ * const arr = [10, 20, 30, 40, "five"];
+ * const obj = { a: 10, b: 20, c: 30, d: { e: 40 } };
+ * slog({ num });
+ * slog({ str });
+ * slog({ arr });
+ * slog({ obj });
  * ```
  * @param {Record<string, string>} obj
  */
 export function slog(obj) {
-  console.log(getKeyValueFormat(obj));
+  const message = getKeyValueFormat(obj);
+  console.log(message);
 }
 
 /**
@@ -16,7 +23,9 @@ export function slog(obj) {
  * @returns {string}
  */
 export function getKeyValueFormat(obj) {
-  return Object.entries(obj).map(([key, value]) => key + ": " + value)[0] || "";
+  return Object.entries(obj).map(([key, value]) => {
+    return key + ": " + JSON.stringify(value, null, 2);
+  })[0] || "";
 }
 
 /**

@@ -1,7 +1,7 @@
-import { isSingle } from "../collections/length.js";
-import { is2DArray } from "../type.js";
-import { reduce } from "../arrays/aggregation.js";
-import { single } from "../collections/single_access.js";
+import { isSingle } from "../collection/length.js";
+import { is2DArray } from "../validation/type.js";
+import { reduce } from "../array/aggregation.js";
+import { single } from "../collection/single_access.js";
 
 /**
  * unique.
